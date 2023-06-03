@@ -15,7 +15,7 @@ function addTask() {
     const deadlineText = deadlineInput.value.trim();
 
     // check if the task text is not empty
-    if (taskText !== "") {
+    if (taskText !== "" && isValidDate(deadlineText)) {
         //create a new list item
         const li = document.createElement("li");
 
@@ -31,25 +31,46 @@ function addTask() {
         const deleteButton = document.createElement("button");
         deleteButton.innerText = "Delete";
 
+        li.dataset.deadline = deadlineText;
+
         // append the task label, deadline label, and the delete button to the new list item.
         li.appendChild(taskLabel);
-        li.appendChild(deadlineInput);
+        li.appendChild(deadlineLabel);
         li.appendChild(deleteButton);
         taskList.appendChild(li);
 
         // reset the input fields to empty
         taskInput.value = "";
         deadlineInput.value = "";
+
+        deleteButton.addEventListener("click", deleteTask);
     }
 }
 
+//function to check if the date is valid  or not
+function isValidDate(dateString) {
+    const selectedDate = new Date(dateString);
+    const today = new Date();
+
+    if (selectedDate < today ) {
+        alert("Please enter a valid date");
+        return false;
+    }
+    return true;
+}
+
+//function to delete a task from the list
 function deleteTask(event) {
+    // check if the clicked element is a button
     if (event.target.tagName === "BUTTON") {
+        // get the parent element ( the list parent ) of the clicked button
         const listItem = event.target.parentElement;
+        // remove the list item from the list
         taskList.removeChild(listItem);
     }
 }
 
+//function to format the date to a readable format
 function formatDate ( dateString ) {
     const options = { year: 'numeric', month: 'long', day: 'numeric'};
     const date = new Date(dateString);
