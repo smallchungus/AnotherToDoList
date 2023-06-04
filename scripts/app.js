@@ -1,14 +1,15 @@
+import { isValidDate } from '/scripts/datesUtils.js';
 // get references to the HTML elements
 const taskInput = document.getElementById("taskInput");
 const deadlineInput = document.getElementById("deadlineInput")
 const addButton = document.getElementById("addButton");
 const taskList = document.getElementById("taskList");
 
-//add event listeners to the HTML elements
+// add event listeners to the HTML elements
 addButton.addEventListener("click", addTask);
 taskList.addEventListener("click", deleteTask);
 
-//funciton to add task to the list
+// function to add task to the list
 function addTask() {
     // get the task text and the deadline text
     const taskText = taskInput.value.trim();
@@ -16,14 +17,14 @@ function addTask() {
 
     // check if the task text is not empty
     if (taskText !== "" && isValidDate(deadlineText)) {
-        //create a new list item
+        // create a new list item
         const li = document.createElement("li");
 
-        //create a new label for the new task list item
+        // create a new label for the new task list item
         const taskLabel = document.createElement("span");
         taskLabel.innerText = taskText;
 
-        //create a new span element for the deadline
+        // create a new span element for the deadline
         const deadlineLabel = document.createElement("span");
         deadlineLabel.innerText = "Deadline: " + deadlineText;
 
@@ -47,32 +48,13 @@ function addTask() {
     }
 }
 
-//function to check if the date is valid  or not
-function isValidDate(dateString) {
-    const selectedDate = new Date(dateString);
-    const today = new Date();
-
-    if (selectedDate < today ) {
-        alert("Please enter a valid date");
-        return false;
-    }
-    return true;
-}
-
-//function to delete a task from the list
+// function to delete a task from the list
 function deleteTask(event) {
     // check if the clicked element is a button
     if (event.target.tagName === "BUTTON") {
-        // get the parent element ( the list parent ) of the clicked button
+        // get the parent element (the list parent) of the clicked button
         const listItem = event.target.parentElement;
         // remove the list item from the list
         taskList.removeChild(listItem);
     }
-}
-
-//function to format the date to a readable format
-function formatDate ( dateString ) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric'};
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options);
 }
