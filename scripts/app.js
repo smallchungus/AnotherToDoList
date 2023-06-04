@@ -1,11 +1,22 @@
 import { isValidDate } from '/scripts/datesUtils.js';
+import { sortTasks } from '/scripts/sortUtils.js';
 // get references to the HTML elements
 const taskInput = document.getElementById("taskInput");
 const deadlineInput = document.getElementById("deadlineInput")
 const addButton = document.getElementById("addButton");
 const taskList = document.getElementById("taskList");
+const sortButton = document.getElementById("sortButton");
+
+// set the initial sort order to asc order
+let sortOrder = "asc"; //ascending order
 
 // add event listeners to the HTML elements
+sortButton.addEventListener("click", function() {
+    sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    sortButton.innerText = sortOrder === "ascending" ? "Sort Descending" : "Sort Ascending";
+    console.log(taskList);
+    sortTasks(sortOrder, taskList);
+});
 addButton.addEventListener("click", addTask);
 taskList.addEventListener("click", deleteTask);
 
@@ -50,6 +61,8 @@ function addTask() {
 
 // function to delete a task from the list
 function deleteTask(event) {
+    // stop event propagation
+    event.stopPropagation();
     // check if the clicked element is a button
     if (event.target.tagName === "BUTTON") {
         // get the parent element (the list parent) of the clicked button
