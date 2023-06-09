@@ -10,15 +10,22 @@
 <body>
     <div class="container">
         <h1>ToDo List</h1>
-        <label for="taskInput">Add a task:</label>
+        <label for="taskInput">Add task:</label>
         <input type="text" id="taskInput" placeholder="Add a task">
 
-        <label for="deadlineInput">Add a deadline perhaps:</label>
+        <label for="deadlineInput">Add deadline:</label>
         <input type="date" id="deadlineInput" placeholder="Add a deadline">
 
-        <button id="addButton">Add Task</button>
+        <label for="filterDate">Filter by date:</label>
+        <input type="date" id="filterDate">
+        <button id="filterButton">Filter Tasks</button>
+
+
         <button id="sortButton">Sort Tasks</button>
         <button id = "sortByNameButton">Sort By Name</button>
+        <button id="toggleCompletedButton">Hide Completed Tasks</button>
+        <button id="addButton">Add Task</button>
+
         <ul id="taskList"></ul>
     </div>
     <script type="module" src="scripts/app.js"></script>
