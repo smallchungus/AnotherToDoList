@@ -1,24 +1,35 @@
 import { isValidDate } from '/scripts/datesUtils.js';
-import { sortTasks } from '/scripts/sortUtils.js';
+import { sortTasks, sortTasksByName} from '/scripts/sortUtils.js';
 // get references to the HTML elements
 const taskInput = document.getElementById("taskInput");
 const deadlineInput = document.getElementById("deadlineInput")
 const addButton = document.getElementById("addButton");
 const taskList = document.getElementById("taskList");
 const sortButton = document.getElementById("sortButton");
+const sortByNameButton = document.getElementById("sortByNameButton");
 
 // set the initial sort order to asc order
 let sortOrder = "asc"; //ascending order
+let sortByNameOrder = "asc";
 
 // add event listeners to the HTML elements
 sortButton.addEventListener("click", function() {
     sortOrder = sortOrder === "asc" ? "desc" : "asc";
-    sortButton.innerText = sortOrder === "ascending" ? "Sort Descending" : "Sort Ascending";
+    sortButton.innerText = sortOrder === "ascending" ? "Sort by Date: Descending" : "Sort by Date: Ascending";
     console.log(taskList);
     sortTasks(sortOrder, taskList);
 });
+
+sortByNameButton.addEventListener("click", function() {
+    sortByNameOrder = sortByNameOrder === "asc" ? "desc" : "asc";
+    sortByNameButton.innerText = sortByNameOrder === "ascending" ? "Sort by Name: Descending" : "Sort by Name: Ascending";
+    console.log(taskList);
+    sortTasksByName(sortByNameOrder, taskList);
+});
+
 addButton.addEventListener("click", addTask);
 taskList.addEventListener("click", deleteTask);
+
 
 // function to add task to the list
 function addTask() {
@@ -30,6 +41,14 @@ function addTask() {
     if (taskText !== "" && isValidDate(deadlineText)) {
         // create a new list item
         const li = document.createElement("li");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.addEventListener("change", function() {
+            li.classList.toggle("completed");
+
+        });
+
 
         // create a new label for the new task list item
         const taskLabel = document.createElement("span");
@@ -44,6 +63,8 @@ function addTask() {
         deleteButton.innerText = "Delete";
 
         li.dataset.deadline = deadlineText;
+
+        li.insertBefore(checkbox, li.firstChild); //insert the checkbox before the first child of the list item
 
         // append the task label, deadline label, and the delete button to the new list item.
         li.appendChild(taskLabel);

@@ -5,6 +5,10 @@
     text-align: center;
 }
 
+.completed{
+    text-decoration: line-through;
+}
+
 input[type="text"]{
     width: 100%;
     padding: 10px;
